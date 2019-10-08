@@ -1,1 +1,143 @@
-
+<html>
+    <style>
+        aside{
+            position: absolute;
+            background-color: grey;
+            text-align: center;
+            width: 250px;
+            right: 100px;
+            top: 21px;
+            height: 350px;
+            color: ;
+        }
+        table{
+            color: green;
+        }
+        section{
+            position: absolute;
+            left: 30px;
+            top: 20px;
+            text-align: center;
+            background-color: lightgrey;
+            width: 300px;
+            height: 350px;
+        }
+        p{
+            font-weight: bold;
+        }
+            
+    </style>
+    <body>
+        <aside>
+            <h2>Behold! Passwords!</h2>
+            <table id = "results">
+            </table>
+        </aside>
+        <section>
+            <p> Maximum Password Length: </p>
+            <input type = "text" id = "PassLength" maxlength = "2"> <br>
+            <p> Minimum Word Length: </p>
+            <input type = "text" id = "MinWordLength" maxlength = "1"> <br>
+            <p> Maximum Word Length: </p>
+            <input type = "text" id = "MaxWordLength" maxlength = "1"> <br>
+            <p> Other Options: </p>
+            <input type = "checkbox" name = "options" 
+                   value = "numbers">Numbered Substitutions<br>
+            <input type = "checkbox" name = "options"
+                   value = "sameletter">Same Letter<br>
+            <button onclick = "PasswordGen();">Generate</button>
+            <script type = "text/javascript">
+                PasswordGen = function(){
+                    t = document.querySelector("#results");
+                    trow = document.createElement("tr");
+                    td = document.createElement("td");
+                    var maxlength = parseInt(document.getElementById("PassLength").value);
+                    var maxtext = parseInt(document.getElementById("MaxWordLength").value);
+                    var mintext = parseInt(document.getElementById("MinWordLength").value);
+                    var numbers = document.getElementsByName("options")[0].checked;
+                    var sameletter = document.getElementsByName("options")[1].checked;
+                    var selected = "";
+                    var i = 0;
+                    var num = 0;
+                    var target = 0;
+                    var char = "";
+                    var result = "";
+                    if(Math.floor((maxlength / maxtext)) < 4){
+                        maxtext = Math.floor(maxlength/4);
+                    }
+                    if(mintext > maxtext){
+                        mintext = maxtext;
+                    }
+                    if(sameletter){
+                        char = words[RandomNum()].charAt(0);
+                    }
+                    while(i < 4){
+                        num = RandomNum();
+                        selected = words[num];
+                        if(selected.charAt(0) != char && sameletter){
+                            continue;
+                        }
+                        if(selected.length > maxtext){
+                            continue;
+                        }
+                        else if(selected.length < mintext){
+                            continue;
+                        }
+                        else if((target + selected.length) > maxlength){
+                            continue;
+                        }
+                        else{
+                            target = target + selected.length;
+                            if(numbers){
+                                var letter;
+                                var flag = 0;
+                                for(var y = 0; y < selected.length; y++){
+                                    if(flag == 1){
+                                        break;
+                                    }
+                                    letter = selected.charAt(y);
+                                    switch(letter){
+                                        case "o":
+                                            selected = selected.replace(/o/g, "0");
+                                            flag = 1;
+                                            break;
+                                        case "e":
+                                            selected = selected.replace(/e/g, "3");
+                                            flag = 1;
+                                            break;
+                                        case "i":
+                                            selected = selected.replace(/i/g, "1");
+                                            flag = 1;
+                                            break;
+                                        case "a":
+                                            selected = selected.replace(/a/g, "4");
+                                            flag = 1;
+                                            break;
+                                        case "s":
+                                            selected = selected.replace(/s/g, "5");
+                                            break;
+                                    }          
+                                }
+                            }
+                            result = result + selected;
+                            i++;
+                        }
+                        
+                    }
+                    contents = document.createTextNode(result);
+                    td.appendChild(contents);
+                    trow.appendChild(td);
+                    t.appendChild(trow);
+                }
+            </script>
+            <script type = "text/javascript">
+                RandomNum = function(){
+                    return Math.floor(Math.random() * 128);
+                }
+            </script>
+            <script>
+                var words = ["the","of","tots","and","next","zebra","camel","a","to","weights","in","is","you","nice","beach","done","that","it","he","was","for","on","are","better","as","with","his","cow","they","I","at","be","chungus","this","have","from","or","one","had","phone","lift","by","word","but","not","what","all","were","we","when","your","can", "goose","said","there","ostrich","use","an","each","which","she","do","how","flamingo","their","if","misery","yeehaw","will","up","other","about","out","many","then","them","milk","password","these","so","some","swole","her","would","make","like","him","into","time","why","has","look","chicken","two","more","write","go","see","number","no","way","could","people","my","than","first","water","been","call","finished","who","oil","its","alpaca","now","lily","find","long","down","day","did","get","pain","come","made","may","part","anger"];
+            </script>
+        </section>
+    </body>
+</html>
